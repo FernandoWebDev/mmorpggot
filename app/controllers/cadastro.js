@@ -18,15 +18,12 @@ module.exports.cadastrar = function(application, req, res){
     return;
   }
 
-  var connection = application.config.dbConnection;
-  console.log(connection);
+  var connection = new application.config.dbConnection;
+  console.log('objeto connection ' + connection);
 
   var UsuariosDAO = new application.app.models.UsuariosDAO(connection);
 
   UsuariosDAO.inserirUsuario(dadosForm);
 
   res.send("Podemos cadastrar");
-
-
-
 }

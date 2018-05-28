@@ -1,21 +1,24 @@
-//exportar o módulo mongodb
-var mongo = require("mongodb");
+var MongoModule = require('mongodb').MongoClient;
 
-var connMongoDB = function() {
-  console.log("entrou na função de conexão");
-  var db = new mongo.Db(
-    "got",
-    new mongo.Server(
-      "localhost", //string contendo o endereço do banco de dados
-      27017, //porta de conexão
-      {}
-    ),
-    {}
-  );
+const url = 'mongodb://localhost:27017';
+const dbName = 'got';
 
-  return db;
+function dbConnection(){
+ this._MongoClient = undefined;
+ this._MongoDB = undefined;
+}
+
+dbConnection.prototype.connectToMongo = function(callback) {
+
+  MongoModule.connect(url, function(err, client) {
+    console.log("Server Conectado Com Sucesso!");
+    var MongoClient = client;
+    var MongoDB = client.db(dbName);
+
+    return callback(MongoClient, MongoDB);
+  });
 }
 
 module.exports = function(){
-  return connMongoDB;
+ return dbConnection;
 }
